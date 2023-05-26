@@ -1,7 +1,6 @@
 import React from 'react';
 
 const MenuItem = ({ item }) => {
-    console.log(item)
     const { name, image, price, recipe } = item;
     return (
         <div className='flex justify-center items-center space-x-4'>
