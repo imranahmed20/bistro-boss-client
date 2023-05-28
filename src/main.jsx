@@ -11,6 +11,7 @@ import Home from './Share/Home/Home/Home.jsx';
 import Menu from './Pages/Menu/Menu.jsx';
 import { HelmetProvider } from 'react-helmet-async';
 import Order from './Pages/Order/Order.jsx';
+import Login from './Pages/Login/Login.jsx';
 
 const router = createBrowserRouter([
   {
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
       {
         path: 'order/:category',
         element: <Order></Order>
+      },
+      {
+        path: '/login',
+        element: <Login></Login>
       }
     ]
   },
