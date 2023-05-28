@@ -1,9 +1,55 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { AuthContext } from '../../Provider/AuthProvider';
+import Swal from 'sweetalert2';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const FoodCard = ({ item }) => {
-    const { name, image, price, recipe } = item;
+    const { name, image, price, recipe, _id } = item;
+    const location = useLocation()
+    const { user } = useContext(AuthContext)
+    const navigate = useNavigate()
     const handleAddToCart = item => {
-        console.log(item)
+
+
+        if (user) {
+            const orderItem = { menuItemId: _id, name, image, price, email: user?.email }
+            fetch('http://localhost:5000/carts'
+                , {
+                    method: 'POST',
+                    headers: {
+                        "content-type": "application/json"
+                    },
+                    body: JSON.stringify(orderItem)
+                }
+            )
+                .then(res => res.json())
+                .then(data => {
+                    if (data.insertedId) {
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'success',
+                            title: 'Your work has been saved',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                    }
+                })
+        }
+        else {
+            Swal.fire({
+                title: 'Please login to order the food',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Login now'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    navigate('/login', { state: { from: location } })
+                }
+            })
+        }
 
     }
     return (
