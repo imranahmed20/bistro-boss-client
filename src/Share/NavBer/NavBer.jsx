@@ -27,7 +27,7 @@ const NavBer = () => {
                 :
                 <>  <li><Link to="/login">Login</Link></li></>
         }
-        <li><Link to=''>
+        <li><Link to='/dashboard/myCart'>
             <button className="btn gap-2">
                 <FaShoppingCart></FaShoppingCart>
                 <div className="badge badge-secondary">+{cart?.length || 0}</div>
