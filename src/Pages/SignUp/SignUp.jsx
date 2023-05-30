@@ -3,6 +3,8 @@ import { Helmet } from 'react-helmet-async';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../Provider/AuthProvider';
+import Swal from 'sweetalert2';
+import SocialLogin from '../../Share/SocalLogin/SocalLogin';
 
 
 const SignUp = () => {
@@ -17,11 +19,35 @@ const SignUp = () => {
             .then(result => {
                 const loggedUser = result.user;
                 console.log(loggedUser)
+
                 updateUserProfile(data.name, data.photoURL)
                     .then(() => {
-                        console.log("user profile info update")
-                        reset()
-                        navigate('/')
+                        const saveUser = { name: data.name, email: data.email }
+                        console.log(saveUser)
+                        fetch('http://localhost:5000/users', {
+                            method: 'POST',
+                            headers: {
+                                'content-type': 'application/json'
+                            },
+                            body: JSON.stringify(saveUser)
+                        })
+                            .then(res => res.json())
+                            .then(data => {
+                                console.log(data)
+                                if (data.insertedId) {
+                                    reset()
+                                    navigate('/')
+                                    Swal.fire({
+                                        position: 'top-end',
+                                        icon: 'success',
+                                        title: 'Your work has been saved',
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    })
+                                }
+                            })
+
+
 
                     })
             })
@@ -84,7 +110,8 @@ const SignUp = () => {
                                 <button className="btn btn-primary">Sign up</button>
                             </div>
                         </form>
-                        <p><small>Already have an account <Link to="/login">Login</Link></small></p>
+                        <p className='text-center'><small>Already have an account <Link to="/login">Login</Link></small></p>
+                        <SocialLogin></SocialLogin>
                     </div>
                 </div>
             </div></>
