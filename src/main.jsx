@@ -22,6 +22,13 @@ import {
 } from '@tanstack/react-query'
 import DashBoard from './Layout/DashBord/DashBord.jsx';
 import MyCard from './Layout/DashBord/MyCard/MyCard.jsx';
+import Error from './Pages/Error/Error.jsx';
+import AllUser from './Layout/DashBord/AllUser/AllUser.jsx';
+import AllItem from './Layout/DashBord/AllItem/AllItem.jsx';
+import Payment from './Layout/DashBord/Payment/Payment.jsx';
+import UserHome from './Layout/DashBord/UserHome/UserHome.jsx';
+import AdminHome from './Layout/DashBord/AdminHome/AdminHome.jsx';
+import AdminRoute from './Routes/AdminRoute/AdminRoute.jsx';
 
 
 const queryClient = new QueryClient()
@@ -30,6 +37,7 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <Main></Main>,
+    errorElement: <Error></Error>,
     children: [
       {
         path: '/',
@@ -58,9 +66,31 @@ const router = createBrowserRouter([
     element: <PrivetRoute><DashBoard></DashBoard></PrivetRoute>,
     children: [
       {
+        path: 'userHome',
+        element: <UserHome></UserHome>
+      },
+      {
+        path: 'adminHome',
+        element: <AdminHome></AdminHome>
+
+      },
+      {
         path: 'myCart',
         element: <MyCard></MyCard>
+      },
+      {
+        path: 'allUser',
+        element: <AllUser></AllUser>
+      },
+      {
+        path: 'allItem',
+        element: <AllItem></AllItem>
+      },
+      {
+        path: 'payment',
+        element: <Payment></Payment>
       }
+
     ]
   }
 ]);
